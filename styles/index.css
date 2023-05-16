@@ -1,0 +1,41 @@
+body {
+  background-color: rgb(20, 20, 20);
+  padding: 0;
+  margin: 0;
+}
+
+.imgHolder {
+  width: 100vw;
+  height: 40vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+
+img {
+  width: clamp(350px, 40vw, 2000px);
+  /* filter: blur(100px); */
+}
+
+.textField {
+  display: grid;
+  place-items: center;
+  grid-template-columns: auto auto auto auto auto auto auto;
+}
+
+input {
+  width: 50px;
+  height: 100px;
+  border-radius: 10%;
+  background-color: rgb(37, 37, 37);
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  margin: 10px;
+  color: white;
+}
+
+input:focus-within {
+  outline: none;
+  border: 1px solid gray;
+  
+}
