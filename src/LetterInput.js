@@ -16,6 +16,8 @@ export class LetterInput extends HTMLElement {
           text-align: center;
           padding: 0;
           transiton: 0.2s;
+          font-family: 'Fjalla One', sans-serif;
+          font-size: 100%;
         }
         input:focus-within {
           outline: none;
@@ -125,37 +127,50 @@ export class LetterInput extends HTMLElement {
         <section class="lower">
         <div class="left"></div><div></div><div class="right"></div>
         </section>`;
+
+    this.particles = this.shadowRoot.querySelectorAll("div");
+    this.letterBox = this.shadowRoot.querySelector("input");
+    this.correctLetters = document.querySelector(".correctLetters").textContent;
   }
 
-  changeState(state) {
-    const particles = this.shadowRoot.querySelectorAll("div");
-    const letterBox = this.shadowRoot.querySelector("input");
-    if (state == "semiCorrect") {
-      document.querySelector(".correctLetters").textContent = document.querySelector(".correctLetters").textContent + letterBox.value.toUpperCase();
-      letterBox.style = "background: hsl(49, 31%, 29%);";
-      letterBox.value = '';
-    } else if ((state == "correct")) {
-      document.querySelector(".correctLetters").textContent = document.querySelector(".correctLetters").textContent + letterBox.value.toUpperCase();
-      letterBox.disabled = "true";
-      letterBox.style = "background: hsl(120, 22%, 21%);";
-    } else {
+  _incorrectAnimation() {
+    letterBox.classList.toggle("rotate");
+    setTimeout(() => {
       letterBox.classList.toggle("rotate");
-      setTimeout(() => {
-        letterBox.classList.toggle("rotate");
-      }, 1000);
-      letterBox.value = '';
-      return
+    }, 1000);
+    letterBox.value = "";
+  }
+
+  _changeInputColor(state) {
+    if (state == "semiCorrect") {
+      correctLetters = correctLetters + letterBox.value.toUpperCase();
+      letterBox.style = "background: hsl(49, 31%, 29%);";
+      letterBox.value = "";
+      return;
     }
 
-    console.log(particles);
+    correctLetters = correctLetters + letterBox.value.toUpperCase();
+    letterBox.disabled = "true";
+    letterBox.style = "background: hsl(120, 22%, 21%);";
+  }
 
+  _changeParticlesColor() {
     particles.forEach(particle => {
       if (state == "semiCorrect") {
         particle.style = "background: rgb(163, 149, 86);";
-      } else if ((state = "correct")) {
-        particle.style = "background: rgb(82, 128, 82);";
+        return;
       }
+      particle.style = "background: rgb(82, 128, 82);";
     });
+  }
+
+  changeState(state) {
+    if (state != "incorrect") {
+      this._changeInputColor(state);
+      this._changeParticlesColor(state);
+    } else {
+      this._incorrectAnimation();
+    }
     this._toggleAnimation(particles, letterBox);
     setTimeout(() => {
       this._toggleAnimation(particles, letterBox);
@@ -171,6 +186,9 @@ export class LetterInput extends HTMLElement {
       }
     });
     letterBox.classList.toggle("shake");
+  }
+  focusElement() {
+    this.shadowRoot.querySelector("input").focus();
   }
 }
 
