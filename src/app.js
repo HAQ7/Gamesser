@@ -1,6 +1,6 @@
-import { LetterInput } from "./LetterInput.js";
+import { LetterInput } from './LetterInput.js';
 
-const api = "f4f38cf257144c4798846f1ae1884446";
+const api = 'f4f38cf257144c4798846f1ae1884446';
 let game;
 
 const randomGamePicker = async () => {
@@ -9,9 +9,9 @@ const randomGamePicker = async () => {
   game = await fetch(
     `https://api.rawg.io/api/games?key=${api}&dates=2015-01-01,2023-01-01&ordering=-added&page=${randomPageNum}`
   )
-    .then(result => result.json())
-    .then(result => result.results[randomGameNum])
-    .catch(error => {});
+    .then((result) => result.json())
+    .then((result) => result.results[randomGameNum])
+    .catch((error) => {});
   console.log(game);
 
   imgRenderer();
@@ -19,42 +19,59 @@ const randomGamePicker = async () => {
 };
 
 const imgRenderer = () => {
-  const imgElement = document.querySelector("img");
+  const imgElement = document.querySelector('img');
   imgElement.src = game.background_image;
 };
 
 const getLetterSize = () => {
   let LargestWordLength = 0;
   let numOfRow = 0;
+  let prevLength = 0;
+  let wordSize;
   for (let i = 0; i < game.slug.length; i++) {
-    let j = i;
-    for (; j < game.slug.length; j++) {
-      if (game.slug[j] == "-" || game.slug[j] == "_") {
-        break;
-      }
+    if (game.slug[i] == '-' || game.slug[i] == '_' || i == game.slug.length - 1 ) {
+      wordSize = i - prevLength
+      prevLength = i;
+      numOfRow++;
     }
-    numOfRow++;
-    j = j - i;
-    LargestWordLength = j > LargestWordLength ? j : LargestWordLength;
-    i = i + j;
+    LargestWordLength = wordSize > LargestWordLength ? wordSize : LargestWordLength;
   }
+  LargestWordLength = wordSize > LargestWordLength ? wordSize : LargestWordLength;
+  console.log(LargestWordLength)
   return LargestWordLength + numOfRow;
 };
 
+// const getLetterSize = () => {
+//   let LargestWordLength = 0;
+//   let numOfRow = 0;
+//   for (let i = 0; i < game.slug.length; i++) {
+//     let j = i;
+//     for (; j < game.slug.length; j++) {
+//       if (game.slug[j] == "-" || game.slug[j] == "_") {
+//         break;
+//       }
+//     }
+//     numOfRow++;
+//     j = j - i;
+//     LargestWordLength = j > LargestWordLength ? j : LargestWordLength;
+//     i = i + j;
+//   }
+//   return LargestWordLength + numOfRow;
+// };
+
 const createInput = () => {
-  const textField = document.querySelector(".textField");
-  const sizeOfElement =
-    textField.getClientRects()[0].width / getLetterSize();
-  let row = document.createElement("div");
-  row.className = "row";
+  const textField = document.querySelector('.textField');
+  const sizeOfElement = textField.getClientRects()[0].width / getLetterSize();
+  let row = document.createElement('div');
+  row.className = 'row';
   for (let i = 0; i < game.slug.length; i++) {
-    if (game.slug[i] == "-" || game.slug[i] == "_") {
+    if (game.slug[i] == '-' || game.slug[i] == '_') {
       textField.appendChild(row);
-      row = document.createElement("div");
-      row.className = "row";
+      row = document.createElement('div');
+      row.className = 'row';
       continue;
     }
-    const newLetter = document.createElement("hq7-letter");
+    const newLetter = document.createElement('hq7-letter');
     newLetter.style = `width: min(${sizeOfElement}px,30px)`;
     row.appendChild(newLetter);
   }
