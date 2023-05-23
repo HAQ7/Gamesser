@@ -4,21 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="src/app.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="src/app.js" type="module" defer></script>
     <link rel="stylesheet" href="styles/index.css" />
     <title>Document</title>
   </head>
   <body>
-    <div class="imgHolder">
-      <img
-        src="https://media.rawg.io/media/games/9f1/9f1891779cb20f44de93cef33b067e50.jpg"
-        alt=""
-      />
-    </div>
-    <div class="inputHolder">
-      <div class="textField">
+    <header>Game Guess</header>
+    <section class="imgHolder">
+      <img src="" alt="" />
+    </section>
 
-      </div>
-    </div>
+    <section class="info">
+      <h2 class="try">0/6</h2>
+      <h2 class="correctLetters">Correct Letters:</h2>
+    </section>
+
+    <section class="textField">
+      <button>Guess</button>
+    </section>
+
+    <div class="a"></div>
   </body>
 </html>
