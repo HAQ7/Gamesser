@@ -9,7 +9,7 @@ body {
 
 header {
   height: 4rem;
-  font-size: 2rem;
+  font-size: clamp(2rem,3vw,3rem);
   background-color: #181818;
   display: flex;
   justify-content: center;
@@ -27,14 +27,15 @@ img {
   width: min(100%, 500px);
   position: absolute;
   z-index: -1;
-  /* filter: blur(50px); */
+  transition: 0.2s;
+  filter: blur(50px);
 }
 
 .info {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(0.75rem,1.5vw,1.5rem);
+  font-size: clamp(1.2rem,1.5vw,3rem);
   background-color: #181818;
 }
 
@@ -51,17 +52,8 @@ img {
   gap: 0;
 }
 
-.interactiveArea {
-  margin-top: 10px;
-  display: flex;
-  gap: 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 button {
-  margin-top: 10px;
+  margin: 10px;
   width: 100px;
   height: 40px;
   border-radius: 15%;
@@ -71,7 +63,7 @@ button {
   border: 0;
   margin-bottom: 10px;
   font-family: 'Fjalla One', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: 0.2s;
 }

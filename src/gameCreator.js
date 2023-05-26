@@ -3,7 +3,7 @@ import { LetterInput } from "./LetterInput.js";
 const api = "f4f38cf257144c4798846f1ae1884446";
 let game;
 
-const randomGamePicker = async () => {
+export const randomGamePicker = async () => {
   const randomPageNum = Math.floor(Math.random() * 10) + 1;
   const randomGameNum = Math.floor(Math.random() * 20);
   game = await fetch(
@@ -34,7 +34,6 @@ const getLetterSize = () => {
 };
 
 const focusNextInput = event => {
-  console.log(event);
   const element = event.target;
   const elementNextSibling = element.nextElementSibling;
   const elementNextCousin = element.parentElement.nextElementSibling
