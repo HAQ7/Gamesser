@@ -16,6 +16,7 @@ export const randomGamePicker = async () => {
 
   imgRenderer();
   createInput();
+  return game.slug
 };
 
 const imgRenderer = () => {
@@ -87,5 +88,3 @@ const createInput = () => {
   }
   textField.appendChild(row);
 };
-
-randomGamePicker();

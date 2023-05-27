@@ -1,8 +1,8 @@
 export class LetterInput extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.innerHTML = `
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        this.shadowRoot.innerHTML = `
         <style> 
         input {
           text-transform: uppercase;
@@ -128,68 +128,96 @@ export class LetterInput extends HTMLElement {
         <div class="left"></div><div></div><div class="right"></div>
         </section>`;
 
-    this.particles = this.shadowRoot.querySelectorAll("div");
-    this.letterBox = this.shadowRoot.querySelector("input");
-    this.correctLetters = document.querySelector(".correctLetters").textContent;
-  }
-
-  _incorrectAnimation() {
-    letterBox.classList.toggle("rotate");
-    setTimeout(() => {
-      letterBox.classList.toggle("rotate");
-    }, 1000);
-    letterBox.value = "";
-  }
-
-  _changeInputColor(state) {
-    if (state == "semiCorrect") {
-      correctLetters = correctLetters + letterBox.value.toUpperCase();
-      letterBox.style = "background: hsl(49, 31%, 29%);";
-      letterBox.value = "";
-      return;
+        this.particles = this.shadowRoot.querySelectorAll("div");
+        this.letterBox = this.shadowRoot.querySelector("input");
+        this.correctLetters = document.querySelector(".correctLetters");
     }
 
-    correctLetters = correctLetters + letterBox.value.toUpperCase();
-    letterBox.disabled = "true";
-    letterBox.style = "background: hsl(120, 22%, 21%);";
-  }
-
-  _changeParticlesColor() {
-    particles.forEach(particle => {
-      if (state == "semiCorrect") {
-        particle.style = "background: rgb(163, 149, 86);";
-        return;
-      }
-      particle.style = "background: rgb(82, 128, 82);";
-    });
-  }
-
-  changeState(state) {
-    if (state != "incorrect") {
-      this._changeInputColor(state);
-      this._changeParticlesColor(state);
-    } else {
-      this._incorrectAnimation();
+    _incorrectAnimation() {
+        this.letterBox.classList.toggle("rotate");
+        setTimeout(() => {
+            this.letterBox.classList.toggle("rotate");
+        }, 1000);
+        this.letterBox.value = "";
     }
-    this._toggleAnimation(particles, letterBox);
-    setTimeout(() => {
-      this._toggleAnimation(particles, letterBox);
-    }, 1000);
-  }
 
-  _toggleAnimation(particles, letterBox) {
-    particles.forEach(particle => {
-      if (particle.parentElement.classList.contains("upper")) {
-        particle.classList.toggle("up");
-      } else {
-        particle.classList.toggle("down");
-      }
-    });
-    letterBox.classList.toggle("shake");
-  }
-  focusElement() {
-    this.shadowRoot.querySelector("input").focus();
-  }
+    _updateCorrectLetters() {
+      this.correctLetters.textContent = this.correctLetters.textContent
+                .slice(15)
+                .includes(this.letterBox.value.toUpperCase())
+                ? this.correctLetters.textContent
+                : this.correctLetters.textContent +
+                  this.letterBox.value.toUpperCase();
+    }
+
+    _changeInputColor(state) {
+        if (state == "semiCorrect") {
+            this._updateCorrectLetters();
+            this.letterBox.style = "background: hsl(49, 31%, 29%);";
+            this.letterBox.value = "";
+            return;
+        }
+
+        this._updateCorrectLetters();
+        this.shouldDisable = true;
+        this.letterBox.style = "background: hsl(120, 22%, 21%);";
+    }
+
+    _changeParticlesColor(state) {
+        this.particles.forEach(particle => {
+            if (state == "semiCorrect") {
+                particle.style = "background: rgb(163, 149, 86);";
+                return;
+            }
+            particle.style = "background: rgb(82, 128, 82);";
+        });
+    }
+
+    changeState(state) {
+        if (state != "incorrect") {
+            this._changeInputColor(state);
+            this._changeParticlesColor(state);
+        } else {
+            this._incorrectAnimation();
+            return;
+        }
+        this._toggleAnimation();
+        setTimeout(() => {
+            this._toggleAnimation();
+        }, 1000);
+    }
+
+    _toggleAnimation() {
+        this.particles.forEach(particle => {
+            if (particle.parentElement.classList.contains("upper")) {
+                particle.classList.toggle("up");
+            } else {
+                particle.classList.toggle("down");
+            }
+        });
+        this.letterBox.classList.toggle("shake");
+    }
+
+    focusElement() {
+        this.shadowRoot.querySelector("input").focus();
+    }
+
+    get letterValue() {
+        return this.letterBox.value.toLowerCase();
+    }
+
+    set letterValue(val) {
+
+    }
+
+    disableInput() {
+      console.log(this.letterBox.disabled)
+      this.letterBox.disabled = this.letterBox.disabled ? false : true;
+    }
+
+    enableInput() {
+      this.letterBox.disabled = this.shouldDisable ? true : false;
+    }
 }
 
 customElements.define("hq7-letter", LetterInput);
