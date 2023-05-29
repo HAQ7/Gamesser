@@ -21,7 +21,6 @@ export class LetterInput extends HTMLElement {
         }
         input:focus-within {
           outline: none;
-          border: 1px solid gray; 
         }
 
         section {
@@ -131,6 +130,7 @@ export class LetterInput extends HTMLElement {
         this.particles = this.shadowRoot.querySelectorAll("div");
         this.letterBox = this.shadowRoot.querySelector("input");
         this.correctLetters = document.querySelector(".correctLetters");
+        this.shouldDisable = false;
     }
 
     _incorrectAnimation() {
@@ -142,25 +142,29 @@ export class LetterInput extends HTMLElement {
     }
 
     _updateCorrectLetters() {
-      this.correctLetters.textContent = this.correctLetters.textContent
-                .slice(15)
-                .includes(this.letterBox.value.toUpperCase())
-                ? this.correctLetters.textContent
-                : this.correctLetters.textContent +
-                  this.letterBox.value.toUpperCase();
+        this.correctLetters.textContent = this.correctLetters.textContent
+            .slice(15)
+            .includes(this.letterBox.value.toUpperCase())
+            ? this.correctLetters.textContent
+            : this.correctLetters.textContent +
+              this.letterBox.value.toUpperCase();
     }
 
     _changeInputColor(state) {
         if (state == "semiCorrect") {
             this._updateCorrectLetters();
-            this.letterBox.style = "background: hsl(49, 31%, 29%);";
-            this.letterBox.value = "";
+            this.letterBox.style = "background: rgb(163, 149, 86);";
+            return;
+        }
+
+        if (state == "incorrect") {
+            this.letterBox.style = "background-color: rgb(37, 37, 37);";
             return;
         }
 
         this._updateCorrectLetters();
         this.shouldDisable = true;
-        this.letterBox.style = "background: hsl(120, 22%, 21%);";
+        this.letterBox.style = "background: rgb(82, 128, 82);"; //hsl(120, 22%, 21%);
     }
 
     _changeParticlesColor(state) {
@@ -174,8 +178,8 @@ export class LetterInput extends HTMLElement {
     }
 
     changeState(state) {
+        this._changeInputColor(state);
         if (state != "incorrect") {
-            this._changeInputColor(state);
             this._changeParticlesColor(state);
         } else {
             this._incorrectAnimation();
@@ -206,17 +210,14 @@ export class LetterInput extends HTMLElement {
         return this.letterBox.value.toLowerCase();
     }
 
-    set letterValue(val) {
-
-    }
+    set letterValue(val) {}
 
     disableInput() {
-      console.log(this.letterBox.disabled)
-      this.letterBox.disabled = this.letterBox.disabled ? false : true;
+        this.letterBox.disabled = true;
     }
 
     enableInput() {
-      this.letterBox.disabled = this.shouldDisable ? true : false;
+        this.letterBox.disabled = this.shouldDisable ? true : false;
     }
 }
 
