@@ -12,13 +12,13 @@ export const randomGamePicker = async () => {
         .then(result => result.json())
         .then(result => result.results[randomGameNum])
         .catch(error => {
-            import("./components/modal.js").then(file => {
+            import("./components/modal.js").then(() => {
                 const textField = document.querySelector(".textField");
                 textField.innerHTML = "";
                 const element = document.createElement("hq7-modal");
                 element.innerHTML = `
             <div slot="title">Error</div>
-            <div slot="description">Could not get the game, try to refresh the page</div>
+            <p slot="description">Could not get the game, try to refresh the page</p>
         `;
                 textField.appendChild(element);
             });
@@ -30,8 +30,10 @@ export const randomGamePicker = async () => {
 };
 
 const imgRenderer = () => {
-    const imgElement = document.querySelector("img");
-    imgElement.src = game.background_image;
+    const imgElements = document.querySelectorAll("img");
+    imgElements.forEach(img => {
+        img.src = game.background_image;
+    });
 };
 
 const getLetterSize = () => {
@@ -45,37 +47,50 @@ const getLetterSize = () => {
 };
 
 const focusNextInput = event => {
-    const element = event.target;
-    const elementNextSibling = element.nextElementSibling;
-    const elementNextCousin = element.parentElement.nextElementSibling
-        ? element.parentElement.nextElementSibling.firstElementChild
-        : null;
+    let element = event.target;
+    let elementNextSibling;
+    let elementNextCousin;
     if (event.inputType == "insertText") {
-        if (elementNextSibling) {
-            elementNextSibling.focusElement();
+        do {
+            elementNextSibling = element.nextElementSibling;
+            if (elementNextSibling) {
+                element = elementNextSibling;
+                continue;
+            }
+            elementNextCousin = element.parentElement.nextElementSibling
+                ? element.parentElement.nextElementSibling.firstElementChild
+                : null;
+            if (elementNextCousin) {
+                element = elementNextCousin;
+                continue;
+            }
             return;
-        }
-        if (elementNextCousin) {
-            elementNextCousin.focusElement();
-        }
+        } while (element.getAttribute("isItCorrect") == "true");
+        element.focusElement();
     }
-    focusPrevInput(event);
 };
 
-const focusPrevInput = event => {
-    const element = event.target;
-    const elementPrevSibling = element.previousElementSibling;
-    const elementPrevCousin = element.parentElement.previousElementSibling
-        ? element.parentElement.previousElementSibling.lastElementChild
-        : null;
+export const focusPrevInput = event => {
+    let element = event.target;
+    let elementPrevSibling;
+    let elementPrevCousin;
     if (event.inputType == "deleteContentBackward") {
-        if (elementPrevSibling) {
-            elementPrevSibling.focusElement();
+        do {
+            elementPrevSibling = element.previousElementSibling;
+            if (elementPrevSibling) {
+                element = elementPrevSibling;
+                continue;
+            }
+            elementPrevCousin = element.parentElement.previousElementSibling
+                ? element.parentElement.previousElementSibling.lastElementChild
+                : null;
+            if (elementPrevCousin) {
+                element = elementPrevCousin;
+                continue;
+            }
             return;
-        }
-        if (elementPrevCousin) {
-            elementPrevCousin.focusElement();
-        }
+        } while (element.getAttribute("isItCorrect") == "true");
+        element.focusElement();
     }
 };
 
@@ -93,7 +108,17 @@ const createInput = () => {
         }
         const newLetter = document.createElement("hq7-letter");
         newLetter.style = `width: min(${sizeOfElement}px,30px)`;
-        newLetter.addEventListener("input", focusNextInput);
+        newLetter.addEventListener("beforeinput", focusPrevInput);
+        newLetter.addEventListener("input", event => {
+            let changedEle = event.target;
+            if (changedEle.letterValue != "") {
+                changedEle.removeEventListener("beforeinput", focusPrevInput);
+            }
+            if (changedEle.letterValue == "") {
+                changedEle.addEventListener("beforeinput", focusPrevInput);
+            }
+            focusNextInput(event);
+        });
         row.appendChild(newLetter);
     }
     textField.appendChild(row);

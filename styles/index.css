@@ -15,6 +15,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .imgHolder {
@@ -22,6 +23,7 @@ header {
     display: grid;
     place-items: center;
     margin: 0;
+    transition: 0.5s;
 }
 
 img {
@@ -30,7 +32,26 @@ img {
     z-index: -1;
     transition: 0.2s;
     filter: blur(60px);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+.finalImg {
+    position: absolute;
+    z-index: -1;
+    filter: none;
+    opacity: 0;
+    margin-top: 1em;
+}
+
+div {
+    display: grid;
+    place-items: center;
+}
+
+p {
+    height: 40%;
+}
+
 
 .info {
     display: flex;
@@ -38,13 +59,18 @@ img {
     align-items: center;
     font-size: clamp(1.2rem, 1.5vw, 3rem);
     background-color: #181818;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .info * {
     margin: 10px;
+    padding: 0.4em;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .textField {
+    position: relative;
     background-color: hsl(0, 0%, 8%);
     display: flex;
     flex-direction: column;
@@ -73,6 +99,37 @@ button {
 button:hover {
     transform: scale(110%);
     border: hsl(120, 22%, 31%) 3px solid;
+}
+
+.endText {
+    font-size: clamp(1.2rem, 1.5vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    animation: moveUp 0.5s;
+    background-color: #181818;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 20px;
+    margin-top: 1em;
+    padding: 0.5em;
+}
+
+.titleEnd {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 20px;
+    padding: 0.5em;
+    width: 80vw;
+}
+
+.lose {
+    background-color: rgb(129, 67, 67);
+}
+
+.win {
+    background-color: rgb(82, 128, 82);
+}
+
+.endText * {
+    margin: 0.5em;
 }
 
 .row {
@@ -108,6 +165,17 @@ hq7-letter {
     animation: moveRight 1s cubic-bezier(0.46, -0.22, 0.41, 1.22);
 }
 
+@keyframes moveUp {
+    from {
+        opacity: 0;
+        transform: translateY(100px);  
+    } 
+    to {
+        opacity: 1;
+        transform: translateY(0);  
+    }
+}
+
 @keyframes moveRight {
     from {
         transform: translateX(0);
@@ -132,7 +200,7 @@ hq7-letter {
 }
 
 .gone {
-    animation: gone 1s;
+    animation: gone 0.7s;
 }
 
 @keyframes gone {

@@ -21,6 +21,7 @@ export class LetterInput extends HTMLElement {
         }
         input:focus-within {
           outline: none;
+          box-shadow: hsl(0,0%,100%) 0px 0px 5px 0.5px;
         }
 
         section {

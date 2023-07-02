@@ -4,6 +4,12 @@ const guessBtn = document.querySelector("button");
 let gameName;
 
 const app = async () => {
+    import("./cookies.js").then(file => {
+        file.checkCookie();
+    });
+    if(document.cookie) {
+        return
+    }
     gameName = await randomGamePicker();
     guessBtn.style = "display: block;";
 };
