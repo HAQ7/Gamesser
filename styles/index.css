@@ -69,6 +69,15 @@ p {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.hint {
+    border-radius: 50%;
+    border: white 2px solid;
+    width: 15px;
+    height: 15px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
 .textField {
     position: relative;
     background-color: hsl(0, 0%, 8%);

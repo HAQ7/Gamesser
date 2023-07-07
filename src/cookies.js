@@ -4,7 +4,7 @@ export const createCookie = (winVal, gameName, gameUrl ,trys) => {
         game: gameName,
         url: gameUrl,
         try: trys
-    })}; max-age=86400`;
+    })}; max-age=15`;
 }
 
 export const checkCookie = () => {

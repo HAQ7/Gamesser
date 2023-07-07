@@ -12,7 +12,7 @@ export const randomGamePicker = async () => {
         .then(result => result.json())
         .then(result => result.results[randomGameNum])
         .catch(error => {
-            import("./components/modal.js").then(() => {
+            import("./components/Modal.js").then(() => {
                 const textField = document.querySelector(".textField");
                 textField.innerHTML = "";
                 const element = document.createElement("hq7-modal");
