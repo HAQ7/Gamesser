@@ -17,7 +17,8 @@ export const checkCookie = () => {
         document.body.appendChild(element);
         import('./turn.js').then(file => {
             const data = JSON.parse(document.cookie.split('=')[1]);
-            document.querySelector('.finalImg').src = data.url;
+            document.querySelector('img').src = data.url;
+            document.querySelectorAll('.info')[1].remove();
             if(data.hasHeWon == true) {
                 document.querySelector(".try").textContent = `${data.try}/5`;
                 file.win(data.game, data.try);

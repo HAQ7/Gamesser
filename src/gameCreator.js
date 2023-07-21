@@ -96,12 +96,13 @@ export const focusPrevInput = event => {
 
 const createInput = () => {
     const textField = document.querySelector(".textField");
-    const sizeOfElement = textField.getClientRects()[0].width / getLetterSize();
+    const sizeOfElement = document.body.getClientRects()[0].width / getLetterSize();
+    console.log(document.body.getClientRects()[0].width)
     let row = document.createElement("div");
     row.className = "row";
     for (let i = 0; i < game.slug.length; i++) {
         if (game.slug[i] == "-" || game.slug[i] == "_") {
-            textField.appendChild(row);
+            textField.insertBefore(row, document.querySelector('button'));
             row = document.createElement("div");
             row.className = "row";
             continue;
@@ -121,5 +122,5 @@ const createInput = () => {
         });
         row.appendChild(newLetter);
     }
-    textField.appendChild(row);
+    textField.insertBefore(row, document.querySelector('button'));
 };

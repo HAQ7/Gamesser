@@ -81,27 +81,21 @@ const scanLetter = (letter) => {
 
 const endAnimation = (title, description) => {
   const textField = document.querySelector('.textField');
-  const rows = document.querySelectorAll('.row');
-  const imgHolder = document.querySelector('.imgHolder');
-  const finalImg = document.querySelector('.finalImg');
-  imgHolder.querySelector('img').style = 'opacity: 0;';
-  imgHolder.style = 'height: 0vh;';
-  rows.forEach((row) => {
-    row.classList.add('gone');
-  });
+  const content = document.querySelector('.contentWrap');
+  document.querySelector('img').style = 'filter: blur(0px);'
+  textField.classList.add('gone')
   guessBtn.classList.add('gone');
   setTimeout(() => {
-    textField.innerHTML = '';
-    finalImg.style = 'opacity: 1; position: initial;';
+    content.removeChild(textField);
     const element = document.createElement('div');
     const classState =
       title == 'You got it!' ? 'titleEnd win' : 'titleEnd lose';
     element.classList.add('endText');
     element.innerHTML = `
             <div class='${classState}'>${title}</div>
-            <div>${description}</div>
+            <div class="disEnd">${description}</div>
             `;
-    textField.appendChild(element);
+    content.appendChild(element);
   }, 700);
 };
 

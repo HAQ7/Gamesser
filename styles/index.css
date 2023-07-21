@@ -5,68 +5,65 @@ body {
     color: white;
     font-family: "Fjalla One", sans-serif;
     font-weight: lighter;
-    overflow-x: hidden;
 }
 
 header {
-    height: 4rem;
-    font-size: clamp(2rem, 3vw, 3rem);
+    height: 50px;
+    font-size: 2rem;
+    padding: 5px;
     background-color: #181818;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
+.contentWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    gap: 1em;
+    margin: 0px 10px 10px 10px;
+}
+
 .imgHolder {
-    height: 40vh;
     display: grid;
     place-items: center;
-    margin: 0;
+    margin-top: 0.5em;
     transition: 0.5s;
 }
 
 img {
     width: min(100%, 500px);
-    position: absolute;
     z-index: -1;
     transition: 0.2s;
-    filter: blur(60px);
+    filter: blur(30px);
+    border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin: 2em;
 }
 
-.finalImg {
-    position: absolute;
-    z-index: -1;
-    filter: none;
-    opacity: 0;
-    margin-top: 1em;
-}
-
-div {
-    display: grid;
-    place-items: center;
-}
-
-p {
-    height: 40%;
-}
-
-
-.info {
+.infoWrap {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: clamp(1.2rem, 1.5vw, 3rem);
+    font-size: clamp(1.1rem, 1.5vw, 3rem);
     background-color: #181818;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 20px;
 }
 
-.info * {
+.infoWrap > * {
     margin: 10px;
     padding: 0.4em;
-    border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.info {
+    display: flex;
+    gap: 0;
+}
+
+svg {
+    width: 25px;
 }
 
 .hint {
@@ -80,12 +77,17 @@ p {
 
 .textField {
     position: relative;
-    background-color: hsl(0, 0%, 8%);
+    background-color: #181818;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transition: 0.2s;
 }
 
 button {
@@ -114,19 +116,23 @@ button:hover {
     font-size: clamp(1.2rem, 1.5vw, 3rem);
     display: flex;
     flex-direction: column;
+    align-items: center;
     animation: moveUp 0.5s;
     background-color: #181818;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 20px;
-    margin-top: 1em;
     padding: 0.5em;
 }
 
 .titleEnd {
+    text-align: center;
+    width: 50%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 20px;
     padding: 0.5em;
-    width: 80vw;
+}
+
+.disEnd {
+    text-align: center;
 }
 
 .lose {
@@ -142,7 +148,6 @@ button:hover {
 }
 
 .row {
-    width: min(100%, 700px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,11 +182,11 @@ hq7-letter {
 @keyframes moveUp {
     from {
         opacity: 0;
-        transform: translateY(100px);  
-    } 
+        transform: translateY(30px);
+    }
     to {
         opacity: 1;
-        transform: translateY(0);  
+        transform: translateY(0);
     }
 }
 
