@@ -37,7 +37,6 @@ const getLetterSize = () => {
         LargestWordLength =
             word.length > LargestWordLength ? word.length : LargestWordLength;
     });
-    console.log(LargestWordLength);
     return LargestWordLength + 5;
 };
 

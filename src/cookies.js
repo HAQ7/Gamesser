@@ -4,8 +4,7 @@ export const createEndCookie = (winVal, gameName, gameUrl, trys) => {
         game: gameName,
         url: gameUrl,
         try: trys,
-    })}; max-age=15`;
-    console.log(document.cookie.split("; "));
+    })}; max-age=86400`;
 };
 
 export const createTutorialCookie = () => {
@@ -13,10 +12,9 @@ export const createTutorialCookie = () => {
 }
 
 export const checkCookie = () => {
-    if (document.cookie.split("; ")[0].split("=")[0] != "data") {
+    if (document.cookie.split("; ")[1].split("=")[0] != "data") {
         return false;
     }
-    console.log("not inside");
     const element = document.createElement("hq7-modal");
     element.innerHTML = `
         <div slot="title">You have Already finished !</div>
@@ -24,7 +22,7 @@ export const checkCookie = () => {
         `;
     document.body.appendChild(element);
     import("./turn.js").then(file => {
-        const data = JSON.parse(document.cookie.split("; ")[0].split("=")[1]);
+        const data = JSON.parse(document.cookie.split("; ")[1].split("=")[1]);
         document.querySelector("img").src = data.url;
         document.querySelectorAll(".info")[1].remove();
         document.querySelectorAll(".info")[1].remove();
