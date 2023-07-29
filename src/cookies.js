@@ -4,15 +4,15 @@ export const createEndCookie = (winVal, gameName, gameUrl, trys) => {
         game: gameName,
         url: gameUrl,
         try: trys,
-    })}; max-age=86400`;
+    })}; max-age=15`;
 };
 
 export const createTutorialCookie = () => {
-    document.cookie = `hasDoneTutorial=true;`;
+    document.cookie = `hasDoneTutorial=true; max-age= 10000000000000000000000`;
 }
 
 export const checkCookie = () => {
-    if (document.cookie.split("; ")[1].split("=")[0] != "data") {
+    if (!document.cookie.includes("data")) {
         return false;
     }
     const element = document.createElement("hq7-modal");
