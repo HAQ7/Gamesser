@@ -1,29 +1,158 @@
 body {
-    background-color: hsl(0, 0%, 8%);
     padding: 0;
     margin: 0;
     color: white;
     font-family: "Fjalla One", sans-serif;
     font-weight: lighter;
+    position: relative;
+}
+
+:root {
+    --s: 150px; /* control the size */
+    --c1: hsl(0, 0%, 8%);
+    --c2: hsl(0, 0%, 6%);
+    --mainColor: ;
+    --secColor: hsl(0, 0%, 9%);
+    --focusColor: ;
+}
+
+html {
+    --_g: var(--c1) 0% 5%, var(--c2) 6% 15%, var(--c1) 16% 25%,
+        var(--c2) 26% 35%, var(--c1) 36% 45%, var(--c2) 46% 55%,
+        var(--c1) 56% 65%, var(--c2) 66% 75%, var(--c1) 76% 85%,
+        var(--c2) 86% 95%, #0000 96%;
+    background: radial-gradient(50% 50% at 100% 0, var(--_g)),
+        radial-gradient(50% 50% at 0 100%, var(--_g)),
+        radial-gradient(50% 50%, var(--_g)),
+        radial-gradient(50% 50%, var(--_g)) calc(var(--s) / 2)
+            calc(var(--s) / 2) var(--c1);
+    background-size: var(--s) var(--s);
 }
 
 header {
     height: 50px;
     font-size: 2rem;
     padding: 5px;
-    background-color: #181818;
+    background-color: hsl(0, 0%, 9%);
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    text-shadow: 5px 5px 7px black;
+    gap: 0.3em;
+    display: grid;
+    place-items: center;
 }
 
+header svg {
+    width: 25px;
+    position: absolute;
+    right: 20px;
+    box-shadow: hsla(210, 8%, 30%, 0.2)0px 8px 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+header svg:hover {
+    transform: scale(1.1);
+}
+
+.contentWrapWrap {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
 .contentWrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
     gap: 1em;
-    margin: 0px 10px 10px 10px;
+    margin: 4px;
 }
+
+/* tutorial -------------------------------------------------------------- */
+
+.tutorialImg {
+    display: grid;
+    place-items: center;
+}
+
+hq7-modal img {
+    border-radius: 20px;
+    width: min(70%, 200px);
+    transition: 0.5s;
+}
+
+hq7-modal .text {
+    background-color: #181818;
+    border-radius: 20px;
+    margin-top: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.text div {
+    border-radius: 20px;
+    transition: 0.5s;
+    margin: 2em;
+}
+hq7-modal img:nth-child(2),
+hq7-modal img:nth-child(3) {
+    position: absolute;
+    opacity: 0;
+    transform: translate(150px);
+}
+
+.text div:nth-child(2),
+.text div:nth-child(3) {
+    position: absolute;
+    opacity: 0;
+    transform: translate(150px);
+}
+
+.pageIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.pageIndicator > svg {
+    width: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    transition: 0.2s;
+    border: 1px solid hsl(0, 0%, 10%);
+}
+
+.pageIndicator > svg:hover {
+    border-color: white;
+}
+
+.pageIndicator svg:first-child {
+    margin-right: 5px;
+    opacity: 0;
+}
+.pageIndicator svg:last-child {
+    margin-left: 5px;
+}
+
+.dot {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: hsl(0, 0%, 70%);
+    transition: 0.2s;
+}
+
+.selectedDot {
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
+
+/* Img and info --------------------------------------------------------------- */
 
 .imgHolder {
     display: grid;
@@ -32,7 +161,7 @@ header {
     transition: 0.5s;
 }
 
-img {
+section > img {
     width: min(100%, 500px);
     z-index: -1;
     transition: 0.2s;
@@ -43,27 +172,74 @@ img {
 }
 
 .infoWrap {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: clamp(1.1rem, 1.5vw, 3rem);
-    background-color: #181818;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    cursor: pointer;
+}
+
+.detailsWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    gap: 1em;
+    width: 100%;
+    visibility: hidden;
+}
+
+.infoWrap,
+.details {
+    text-align: center;
+    font-size: clamp(1em, 2vw, 1.2em);
+    background-color: hsl(0, 0%, 9%);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 20px;
+    transition: 0.5s;
+}
+.details {
+    display: grid;
+    place-items: center;
+    gap: 0;
+    padding: 10px;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 1;
+    opacity: 0;
+}
+
+.detailsStay {
+    opacity: 1;
+}
+.detailsUp {
+    opacity: 1;
+    animation: moveUp 0.5s;
+}
+.detailsDown {
+    opacity: 1;
+    animation: moveDown 0.5s;
+}
+
+.infoWrap:hover {
+    background-color: hsl(0, 0%, 11%);
 }
 
 .infoWrap > * {
-    margin: 10px;
+    margin: 10px 0;
     padding: 0.4em;
 }
 
 .info {
     display: flex;
     gap: 0;
+    transition: 0.2s;
 }
 
 svg {
-    width: 25px;
+    width: clamp(1em, 2vw, 1.4em);
+    transition: 0.2s;
 }
 
 .hint {
@@ -74,6 +250,18 @@ svg {
     font-size: 15px;
     cursor: pointer;
 }
+
+/* rest of body --------------------------------------------------------- */
+
+.spinner {
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 10px solid white;
+    /* border-right: ; */
+    
+}
+
 
 .textField {
     position: relative;
@@ -86,7 +274,7 @@ svg {
     padding: 20px;
     margin: 10px;
     border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: 0.2s;
 }
 
@@ -96,7 +284,7 @@ button {
     width: 100px;
     height: 40px;
     border-radius: 15%;
-    background-color: rgb(82, 128, 82);
+    background-color: hsl(120, 22%, 41%);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     color: white;
     border: 0;
@@ -104,15 +292,17 @@ button {
     font-family: "Fjalla One", sans-serif;
     font-size: 1.2rem;
     cursor: pointer;
+    text-shadow: 1px 1px 5px black;
     transition: 0.2s;
 }
 
 button:hover {
     transform: scale(110%);
-    border: hsl(120, 22%, 31%) 3px solid;
+    background-color: hsl(120, 22%, 35%);
 }
 
 .endText {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     font-size: clamp(1.2rem, 1.5vw, 3rem);
     display: flex;
     flex-direction: column;
@@ -166,19 +356,6 @@ hq7-letter {
     opacity: 0;
 }
 
-::-webkit-scrollbar {
-    background-color: hsl(0, 0%, 8%);
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: hsl(0, 0%, 17%);
-}
-
-.moveRight {
-    transform: translateX(100vw);
-    animation: moveRight 1s cubic-bezier(0.46, -0.22, 0.41, 1.22);
-}
-
 @keyframes moveUp {
     from {
         opacity: 0;
@@ -188,6 +365,22 @@ hq7-letter {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes moveDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.moveRight {
+    transform: translateX(100vw);
+    animation: moveRight 1s cubic-bezier(0.46, -0.22, 0.41, 1.22);
 }
 
 @keyframes moveRight {
@@ -223,5 +416,15 @@ hq7-letter {
     }
     to {
         opacity: 0;
+    }
+}
+
+@media (min-width: 1000px) {
+    ::-webkit-scrollbar {
+        background-color: hsl(0, 0%, 8%);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: hsl(0, 0%, 17%);
     }
 }

@@ -12,28 +12,24 @@ export const randomGamePicker = async () => {
         .then(result => result.json())
         .then(result => result.results[randomGameNum])
         .catch(error => {
-            import("./components/Modal.js").then(() => {
-                const textField = document.querySelector(".textField");
-                textField.innerHTML = "";
-                const element = document.createElement("hq7-modal");
-                element.innerHTML = `
+            const textField = document.querySelector(".textField");
+            textField.innerHTML = "";
+            const element = document.createElement("hq7-modal");
+            element.innerHTML = `
             <div slot="title">Error</div>
             <p slot="description">Could not get the game, try to refresh the page</p>
         `;
-                textField.appendChild(element);
-            });
+            textField.appendChild(element);
         });
     console.log(game.slug);
     imgRenderer();
-    createInput();
+    // createInput();
     return game.slug;
 };
 
 const imgRenderer = () => {
-    const imgElements = document.querySelectorAll("img");
-    imgElements.forEach(img => {
-        img.src = game.background_image;
-    });
+    const imgElement = document.querySelector("section>img");
+    imgElement.src = game.background_image;
 };
 
 const getLetterSize = () => {
@@ -43,7 +39,8 @@ const getLetterSize = () => {
         LargestWordLength =
             word.length > LargestWordLength ? word.length : LargestWordLength;
     });
-    return LargestWordLength + words.length;
+    console.log(LargestWordLength);
+    return LargestWordLength + 5;
 };
 
 const focusNextInput = event => {
@@ -96,13 +93,13 @@ export const focusPrevInput = event => {
 
 const createInput = () => {
     const textField = document.querySelector(".textField");
-    const sizeOfElement = document.body.getClientRects()[0].width / getLetterSize();
-    console.log(document.body.getClientRects()[0].width)
+    const sizeOfElement =
+        document.body.getClientRects()[0].width / getLetterSize();
     let row = document.createElement("div");
     row.className = "row";
     for (let i = 0; i < game.slug.length; i++) {
         if (game.slug[i] == "-" || game.slug[i] == "_") {
-            textField.insertBefore(row, document.querySelector('button'));
+            textField.insertBefore(row, document.querySelector("button"));
             row = document.createElement("div");
             row.className = "row";
             continue;
@@ -122,5 +119,5 @@ const createInput = () => {
         });
         row.appendChild(newLetter);
     }
-    textField.insertBefore(row, document.querySelector('button'));
+    textField.insertBefore(row, document.querySelector("button"));
 };

@@ -130,7 +130,13 @@ export class LetterInput extends HTMLElement {
 
         this.particles = this.shadowRoot.querySelectorAll("div");
         this.letterBox = this.shadowRoot.querySelector("input");
-        this.correctLetters = document.querySelector(".correctLetters");
+        this.correctLettersDetails = document.querySelector(".correctLetters");
+        this.incorrectLettersDetails =
+            document.querySelector(".incorrectLetters");
+        this.correctLetters = document.querySelectorAll(".correctLetters")[1];
+        this.incorrectLetters =
+            document.querySelectorAll(".incorrectLetters")[1];
+
         this.shouldDisable = false;
     }
 
@@ -142,28 +148,47 @@ export class LetterInput extends HTMLElement {
         this.letterBox.value = "";
     }
 
-    _updateCorrectLetters() {
-        this.correctLetters.textContent = this.correctLetters.textContent
-            .slice(15)
-            .includes(this.letterBox.value.toUpperCase())
-            ? this.correctLetters.textContent
-            : this.correctLetters.textContent +
-              this.letterBox.value.toUpperCase();
+    _updateLetters(infoElement) {
+        let text = infoElement.textContent;
+        if (infoElement.isEqualNode(this.correctLettersDetails)) {
+            text = infoElement.textContent.substring(17);
+        }
+        if (infoElement.isEqualNode(this.incorrectLettersDetails)) {
+            text = infoElement.textContent.substring(19);
+        }
+        infoElement.textContent = text.includes(
+            this.letterBox.value.toUpperCase()
+        )
+            ? infoElement.textContent
+            : infoElement.textContent + this.letterBox.value.toUpperCase();
     }
 
     _changeInputColor(state) {
-        if (state == "semiCorrect") {
-            this._updateCorrectLetters();
-            this.letterBox.style = "background: rgb(163, 149, 86);";
-            return;
-        }
-
         if (state == "incorrect") {
+            this._updateLetters(this.incorrectLettersDetails);
+            this._updateLetters(this.incorrectLetters);
+            document.querySelectorAll(".info")[2].firstElementChild.style =
+                "transform: scale(1.2);";
+            setTimeout(() => {
+                document.querySelectorAll(".info")[2].firstElementChild.style =
+                    "transform: scale(1);";
+            }, 200);
             this.letterBox.style = "background-color: rgb(37, 37, 37);";
             return;
         }
+        this._updateLetters(this.correctLettersDetails);
+        this._updateLetters(this.correctLetters);
 
-        this._updateCorrectLetters();
+        if (state == "semiCorrect") {
+            this.letterBox.style = "background: rgb(163, 149, 86);";
+            document.querySelectorAll(".info")[1].firstElementChild.style =
+                "transform: scale(1.2);";
+            setTimeout(() => {
+                document.querySelectorAll(".info")[1].firstElementChild.style =
+                    "transform: scale(1);";
+            }, 500);
+            return;
+        }
         this.shouldDisable = true;
         this.letterBox.style = "background: rgb(82, 128, 82);"; //hsl(120, 22%, 21%);
     }

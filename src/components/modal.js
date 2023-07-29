@@ -8,17 +8,20 @@ export class Modal extends HTMLElement {
           width: 100%;
         }
         .holder {
+          display: flex;
+          flex-direction: column;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           width: min(90vw, 500px);
-          height: 200px;
-          background-color: black;
           text-align: center;
           border-radius: 30px 30px 0 0;
-          animation: opa 0.5s;
+          animation: addOpacity 0.5s;
           margin-top: 10px;
+          z-index: 2;
+          background-color: hsl(0, 0%, 10%);
+          border-radius: 30px 30px 30px 30px;
         }
         
         h2 {
@@ -27,31 +30,19 @@ export class Modal extends HTMLElement {
           margin: 0;
           border-radius: 30px 30px 0 0;
           padding: 0.5em;
-          font-size: clamp(1.5rem,8vw,2rem)
-          display: flex;
+          font-size: clamp(1.3rem,7vw,2rem);
+          text-align: center;
         }
 
         .text {
           height: 80%;
-          background-color: hsl(0, 0%, 10%);
           padding: 0.5em;
-          border-radius: 0 0 30px 30px;
-          font-size: 1.2rem;
+          font-size: clamp(0.9rem,4vw,1.2rem);
         }
 
         .title {
           display: grid;
           place-items: center;
-        }
-
-        .backdrop {
-          position: absolute;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background: black;
-          opacity: 45%;
-          animation: opa2 0.5s;
         }
 
         button {
@@ -71,10 +62,15 @@ export class Modal extends HTMLElement {
 
         button:hover {
           transform: scale(110%);
-          border: hsl(120, 22%, 31%) 3px solid;
+          background-color: hsl(120, 22%, 35%);
+      } 
+
+      .addOpacity {
+        animation: addOpacity 0.5s;
+        opacity: 1;
       }
 
-        @keyframes opa {
+        @keyframes addOpacity {
             from {
                 opacity: 0;
             }
@@ -84,17 +80,12 @@ export class Modal extends HTMLElement {
             }
         }
 
-        @keyframes opa2 {
-          from {
-              opacity: 0;
-          }
+        .removeOpacity {
+          animation: removeOpacity 0.5s;
+        opacity: 0;
+        }
 
-          to {
-              opacity: 45%;
-          }
-      } 
-
-        @keyframes ropa {
+        @keyframes removeOpacity {
           0% {
                 opacity: 100%;
             }
@@ -107,49 +98,43 @@ export class Modal extends HTMLElement {
               opacity: 0;
             }
         }
-
-        @keyframes ropa2 {
-          0% {
-              opacity: 45%;
-          }
-
-          50% {
-              opacity: 0;
-          } 
-
-          100% {
-            opacity: 0;
-          }
       }
     </style>
     <section class='modal'>
-    <div class='backdrop'></div>
     <div class='holder'>
-      <h2><slot name="title"></slot></h1>
+      <h2><slot name="title"></slot></h2>
       <div class='text'>
         <slot name="description"></slot>
-        <button>Sure</button>
+        <button>Got it !</button>
       </div>
     </div>
     </section>
     
     `;
-    document.body.style = 'overflow-y: hidden;'
-    this.backdrop = this.shadowRoot.querySelector('.backdrop');
-    this.holder = this.shadowRoot.querySelector('.holder');
+        this.backdrop = document.querySelector("hq7-backdrop");
+        this.holder = this.shadowRoot.querySelector(".holder");
     }
     connectedCallback() {
-      this.backdrop.addEventListener('click', this._removeModal.bind(this));
-      this.shadowRoot.querySelector('button').addEventListener('click', this._removeModal.bind(this));
+        this.backdrop.addBackdrop();
+        this.shadowRoot
+            .querySelector("button")
+            .addEventListener("click", this._removeModal.bind(this));
     }
 
     _removeModal() {
-      this.backdrop.style = 'animation: ropa2 0.500s';
-      this.holder.style = 'animation: ropa 0.500s';
-      setTimeout(() => {        
-        document.body.removeChild(document.querySelector('hq7-modal'));
-        document.body.style = 'overflow-y: initial;'
-      }, 400);
+        this.shadowRoot.querySelector("button").disabled = true;
+        this.backdrop.removeBackdrop();
+        this.holder.classList.add("removeOpacity");
+        setTimeout(() => {
+          if(document.querySelector('hq7-modal')) {
+            document.querySelector('hq7-modal').remove();
+            return;
+          }
+          document.querySelector('hq7-tutorial').remove();
+        },400)
+    }
+    buttonAdd() {
+        this.shadowRoot.querySelector("button").classList.add(".addOpacity");
     }
 }
 
