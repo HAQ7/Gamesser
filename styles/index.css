@@ -10,17 +10,16 @@ body {
 :root {
     --s: 150px; /* control the size */
     --c1: hsl(0, 0%, 8%);
-    --c2: hsl(0, 0%, 6%);
-    --mainColor: ;
-    --secColor: hsl(0, 0%, 9%);
-    --focusColor: ;
+    --mainColor: hsl(0, 0%, 6%);
+    --secColor: hsl(0, 0%, 9%); 
+    --focusColor: hsl(120, 22%, 41%);
 }
 
 html {
-    --_g: var(--c1) 0% 5%, var(--c2) 6% 15%, var(--c1) 16% 25%,
-        var(--c2) 26% 35%, var(--c1) 36% 45%, var(--c2) 46% 55%,
-        var(--c1) 56% 65%, var(--c2) 66% 75%, var(--c1) 76% 85%,
-        var(--c2) 86% 95%, #0000 96%;
+    --_g: var(--c1) 0% 5%, var(--mainColor) 6% 15%, var(--c1) 16% 25%,
+        var(--mainColor) 26% 35%, var(--c1) 36% 45%, var(--mainColor) 46% 55%,
+        var(--c1) 56% 65%, var(--mainColor) 66% 75%, var(--c1) 76% 85%,
+        var(--mainColor) 86% 95%, #0000 96%;
     background: radial-gradient(50% 50% at 100% 0, var(--_g)),
         radial-gradient(50% 50% at 0 100%, var(--_g)),
         radial-gradient(50% 50%, var(--_g)),
@@ -33,7 +32,7 @@ header {
     height: 50px;
     font-size: 2rem;
     padding: 5px;
-    background-color: hsl(0, 0%, 9%);
+    background-color: var(--secColor);
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     text-shadow: 5px 5px 7px black;
@@ -83,7 +82,7 @@ hq7-modal img {
 }
 
 hq7-modal .text {
-    background-color: #181818;
+    background-color: var(--secColor);
     border-radius: 20px;
     margin-top: 10px;
     display: grid;
@@ -194,7 +193,7 @@ section > img {
 .details {
     text-align: center;
     font-size: clamp(1em, 2vw, 1.2em);
-    background-color: hsl(0, 0%, 9%);
+    background-color: var(--secColor);
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 20px;
     transition: 0.5s;
@@ -257,15 +256,25 @@ svg {
     width: 50px;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    border: 10px solid white;
-    /* border-right: ; */
-    
+    border-color: white transparent white transparent;
+    border-width: 5px;
+    border-style: solid;
+    animation: rotate 1.5s linear infinite;
+    position: absolute;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
 }
 
 
 .textField {
     position: relative;
-    background-color: #181818;
+    background-color: var(--secColor);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -284,7 +293,7 @@ button {
     width: 100px;
     height: 40px;
     border-radius: 15%;
-    background-color: hsl(120, 22%, 41%);
+    background-color: var(--focusColor);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     color: white;
     border: 0;
@@ -308,7 +317,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     animation: moveUp 0.5s;
-    background-color: #181818;
+    background-color: var(--secColor);
     border-radius: 20px;
     padding: 0.5em;
 }

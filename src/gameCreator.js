@@ -1,13 +1,11 @@
 import { LetterInput } from "./components/LetterInput.js";
-
-const api = "f4f38cf257144c4798846f1ae1884446";
 let game;
 
 export const randomGamePicker = async () => {
     const randomPageNum = Math.floor(Math.random() * 10) + 1;
     const randomGameNum = Math.floor(Math.random() * 20);
     game = await fetch(
-        `https://api.rawg.io/api/games?key=${api}&dates=2015-01-01,2023-01-01&ordering=-added&page=${randomPageNum}`
+        `https://api.rawg.io/api/games?key=f4f38cf257144c4798846f1ae1884446&dates=2015-01-01,2023-01-01&page=${randomPageNum}`
     )
         .then(result => result.json())
         .then(result => result.results[randomGameNum])
@@ -21,9 +19,9 @@ export const randomGamePicker = async () => {
         `;
             textField.appendChild(element);
         });
-    console.log(game.slug);
     imgRenderer();
-    // createInput();
+    document.querySelector('.spinner').remove();
+    createInput();
     return game.slug;
 };
 

@@ -9,7 +9,7 @@ export const createEndCookie = (winVal, gameName, gameUrl, trys) => {
 };
 
 export const createTutorialCookie = () => {
-    document.cookie = `hasDoneTutorial=true; max-age=15`;
+    document.cookie = `hasDoneTutorial=true;`;
 }
 
 export const checkCookie = () => {
