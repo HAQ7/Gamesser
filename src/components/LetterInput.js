@@ -190,7 +190,7 @@ export class LetterInput extends HTMLElement {
             return;
         }
         this.shouldDisable = true;
-        this.letterBox.style = "background: rgb(82, 128, 82);"; //hsl(120, 22%, 21%);
+        this.letterBox.style = "background: rgb(82, 128, 82);";
     }
 
     _changeParticlesColor(state) {

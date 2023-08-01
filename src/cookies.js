@@ -4,11 +4,11 @@ export const createEndCookie = (winVal, gameName, gameUrl, trys) => {
         game: gameName,
         url: gameUrl,
         try: trys,
-    })}; max-age=15`;
+    })}; max-age=86400`;
 };
 
 export const createTutorialCookie = () => {
-    document.cookie = `hasDoneTutorial=true; max-age= 10000000000000000000000`;
+    document.cookie = `hasDoneTutorial=true; max-age = 10000000000000000000000`;
 }
 
 export const checkCookie = () => {
