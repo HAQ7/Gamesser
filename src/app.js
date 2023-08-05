@@ -1,6 +1,5 @@
 import { randomGamePicker } from "./gameCreator.js";
 import { checkCookie, createTutorialCookie } from "./cookies.js";
-import { Tutorial } from "./components/Tutorial.js";
 
 const guessBtn = document.querySelector("button");
 const infoHolder = document.querySelector(".infoWrap");

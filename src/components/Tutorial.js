@@ -1,4 +1,4 @@
-export class Tutorial extends HTMLElement {
+class Tutorial extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" });

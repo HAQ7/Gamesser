@@ -1,4 +1,4 @@
-export class Backdrop extends HTMLElement {
+class Backdrop extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
