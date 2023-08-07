@@ -1,4 +1,4 @@
-import { Modal } from "./components/Modal.js";
+import { Modal } from "./components/modal.js";
 export const createEndCookie = (winVal, gameName, gameUrl, trys) => {
     document.cookie = `data=${JSON.stringify({
         hasHeWon: winVal,
