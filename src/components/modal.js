@@ -1,4 +1,4 @@
-class Modal extends HTMLElement {
+export class Modal extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" });

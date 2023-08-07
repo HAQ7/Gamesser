@@ -10,17 +10,19 @@ export const randomGamePicker = async () => {
         .then(result => result.json())
         .then(result => result.results[randomGameNum])
         .catch(error => {
-            const textField = document.querySelector(".textField");
-            textField.innerHTML = "";
-            const element = document.createElement("hq7-modal");
-            element.innerHTML = `
-            <div slot="title">Error</div>
-            <p slot="description">Could not get the game, try to refresh the page</p>
-        `;
-            textField.appendChild(element);
+            import("./components/Modal.js").then(() => {
+                const textField = document.querySelector(".textField");
+                textField.innerHTML = "";
+                const element = document.createElement("hq7-modal");
+                element.innerHTML = `
+                <div slot="title">Error</div>
+                <p slot="description">Could not get the game, try to refresh the page</p>
+            `;
+                textField.appendChild(element);
+            });
         });
     imgRenderer();
-    document.querySelector('.spinner').remove();
+    document.querySelector(".spinner").remove();
     createInput();
     return game.slug;
 };

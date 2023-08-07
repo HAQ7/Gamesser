@@ -46,7 +46,11 @@ const closeDetails = () => {
 }
 
 const createTutorial = () => {
-    document.querySelector('.contentWrapWrap').appendChild(document.createElement('hq7-tutorial'));    
+    import("./components/Tutorial.js").then(() => {
+        import("./components/Modal.js").then(() => {
+            document.querySelector('.contentWrapWrap').appendChild(document.createElement('hq7-tutorial'));    
+        })
+    })
 }
  
 const app = async () => {
