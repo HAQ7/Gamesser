@@ -1,3 +1,5 @@
+import { Modal } from "./Modal";
+
 export class Tutorial extends HTMLElement {
     constructor() {
         super();
